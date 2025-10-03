@@ -1,0 +1,5 @@
+https://github.com/TonnyL/Awesome_APIs?tab=readme-ov-file#music
+https://openlibrary.org/developers/api
+https://openlibrary.org/dev/docs/api/search
+https://openlibrary.org/dev/docs/api/authors
+https://openlibrary.org/search.json?q=potter

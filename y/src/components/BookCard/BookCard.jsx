@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router-dom"
 
-const MovieCard = ({ Poster, Type, imdbID, Year, Title }) => {
+const BookCard = ({ author_name, bookKey, title, first_publish_year, edition_count, cover_i, key }) => {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        navigate(`movie/${imdbID}`)
+        navigate(`Openlibrary/${bookKey.split("/")[2]}`)
     }
 
     return (
         <div onClick={handleClick} className="movie-card">
             <div className="poster-container">
-                <img src={Poster} alt={Title} />
+                <img src={`https://covers.openlibrary.org/b/ID/${cover_i}-M.jpg`} alt={title} />
             </div>
             <div className="movie-info">
-                <div className="movie-title">{Title}</div>
+                <div className="movie-title">{title}</div>
                 <div className="movie-meta">
-                    <span className="movie-year">{Year}</span>
-                    <span className="movie-type">{Type}</span>
+                    <span className="movie-year">{first_publish_year}</span>
+                    <span className="movie-type">{author_name}</span>
                 </div>
-                <div className="movie-id">IMDb: {imdbID}</div>
+                <div className="movie-id">Count edition: {edition_count}</div>
             </div>
         </div>
 
@@ -26,4 +26,4 @@ const MovieCard = ({ Poster, Type, imdbID, Year, Title }) => {
     )
 }
 
-export default MovieCard
+export default BookCard

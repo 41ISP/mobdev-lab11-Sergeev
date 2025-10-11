@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import "./Search.css"
-import Stats from "../../components/Stats/Stats"
 import BookCard from "../../components/BookCard/BookCard"
 
 const Search = () => {
@@ -14,19 +13,20 @@ const Search = () => {
 
     const handleSearch = async () => {
         setError("")
-        setMovies(undefined)
+        setBooks(undefined)
         try {
             const trimmedBookName = bookName.trim()
             if (trimmedBookName.length <= 0) return
-
             const parameters = new URLSearchParams({
-                apikey: import.meta.env.VITE_OMDB_APIKEY, s: bookName, page: 1
+                q: bookName
             })
-            const res = await fetch(`https://www.omdbapi.com/?${parameters.toString()}`)
+            const res = await fetch(`https://openlibrary.org/search.json?${parameters.toString()}`)
             const json = await res.json()
             if (json.Response === "False") {
                 throw new Error("Не удалось получить книги")
             }
+            console.log(json);
+            
             setBooks(json)
         } catch (err) {
             setError(err.message)
@@ -37,7 +37,7 @@ const Search = () => {
     return (
         <div className="container">
             <div className="header">
-                <h1>🎬 Book Search Results</h1>
+                <h1>Book Search Results</h1>
                 <div className="search-container">
                     <input type="text" className="search-input" placeholder="Search for books..."
                         value={bookName}
@@ -46,12 +46,10 @@ const Search = () => {
                     <button onClick={handleSearch} className="search-button">Search</button>
                 </div>
                 {error && <p>{error}</p>}
-                {books && <Stats {...books} />}
             </div>
 
-            <div className="movie-grid">
-                {books && books.Search.map((book) => <BookCard key={book.imdbID} {...book} />)}
-
+            <div className="book-grid">
+                {books && books.docs.map((book) => <BookCard bookKey={book.key} key={book.key} {...book} />)}
             </div>
         </div>
 
